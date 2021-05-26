@@ -24,4 +24,14 @@ Project was implemented for educational purposes.
 
 ## Gallery
 
-Pictures to be added later
+Visualisation of the electromagnetic field distribution inside a model given in YZ plane.
+
+> ### Electric field E
+>
+> ![Electric field vector distribution, real part](/img/ORG_E_field_re_YZ.png)
+> ![Electric field vector distribution, imaginary part](/img/ORG_E_field_im_YZ.png)
+
+> ### Magnetic field strength H
+>
+> ![Magnetic field strength distribution, real part](/img/ORG_M_field_re_YZ.png)
+> ![Magnetic field strength distribution, imaginary part](/img/ORG_M_field_im_YZ.png)
