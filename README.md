@@ -28,7 +28,7 @@ Visualisation of the electromagnetic field distribution inside a model given in 
 
 > ### Electric field E
 >
-> ![Electric field vector distribution, real part](img/ORG_E_field_re_YZ.png)
+> ![Electric field vector distribution, real part](/img/Org_E_field_re_YZ.png)
 >
 > ![Electric field vector distribution, imaginary part](/img/ORG_E_field_im_YZ.png)
 
