@@ -4,7 +4,9 @@ Case on microwave modelling presented on Elmer webinar series - 20th of May, 202
 
 **"Industrial applications oriented, microwave modelling in ELMER"**
 
-Presentation available [here](https://www.nic.funet.fi/pub/sci/physics/elmer/webinar/)
+Webinar video available [here](https://youtu.be/aGf4sC5q0QE)
+
+Presentation file available [here](https://www.nic.funet.fi/pub/sci/physics/elmer/webinar/)
 
 ## File data
 
@@ -18,32 +20,113 @@ File list:
 
 Project of the microwave chamber with a waveguide. It allowed study on the resonance phenomenon in microwave chamber modelled with MES software.
 
-## 3D model - Netgen
+## 3D model
 
-Device consists of two parts: cylindrical waveguide and cylindrical chamber. They are joined axisymmetricly.
+Device consists of two parts: cylindrical waveguide and cylindrical chamber. They are joined axisymmetricly. Electromagnetic wave propagated through a waveguide is of TE 01 mode, and it is generating TE 011 mode in a chamber.
 
->![Model 3D - geometry](/img/Org_3D_geo.png)
+![Model 3D - geometry](/img/Org_3D_geo.png)
+
+For given dimensions, cylindrical chamber's shape and knowing wave mods TE 011 with its identifiers (*m*=0, *n*=1, *p*=1), resonance frequency can be calculated from a formula:
+![Formula for resonance frequency for a case](/eq/fres_eq.png)
+where:
+- fres - resonance frequency,
+- c - speed of light,
+- u'mn - n-th root of the derivative of m-th order Bessel function,
+- R - chamber's radius,
+- L - chamber's length,
+- m, n, p - wave mode identifiers.
 
 ## Model's mathematical description - Elmer FEM
+
+### Material
 
 Model's interior is filled with air - its parameters are approximated with parameters of vacuum in *Material* section.
 
 `Relative Permittivity = Real 1`
 
+### Solvers
+
 Model uses *VectorHelmholtz* module for solving Helmholtz equation describing electromagnetic wave propagation. It is provided in *Solver 1* section. Moreover *Solver 2* provides solver, which allows calculating results from *VectorHelmholtz* module. *Solver 3* allows saving results describing chamber's area in YZ plane to an external data file.
+
+### Constants
+
+To simplify formulas used in a program, *Constants* section was introduced.
+
+`! Constants for wave equation
+$ beta=21.243
+$ beta_lim=47.896
+$ const=0.013292
+$ w=2*pi*(2.5e9)
+! Constant for Leontovich boundary condition
+$ l=767340`
+
+*beta* - (beta) - phase constant:
+![Phase constant equation](/eq/phase_const_eq.png)
+where:
+![Main phase constant equation](/eq/phase_eq.png)
+- wres - angular resonance frequency,
+- e0, u0 - electric permittivity and magnetic permeability of chamber's interior - here vacuum where er=1 and ur=1.
+Note! Phase constant needs to be a real value!
+
+*beta_lim* - (beta_lim) - limit phase constant:
+![Limit phase constant equation](/eq/phase_lim_eq.png)
+where:
+- u'mn - n-th root of the derivative of m-th order Bessel function - here *m*=0, *n*=1,
+- r - waveguide's radius.
+
+*const* - custom constant introduced to simplify Helmholtz equation:
+![Const equation](/eq/const_eq.png)
+where:
+- r - waveguide's radius,
+- u'mn - n-th root of the derivative of m-th order Bessel function - here *m*=0, *n*=1.
+
+*w* - (omega_res) - angular resonance frequency:
+![Angular frequency equation](/eq/wres_eq.png)
+
+*l* - custom constant introduced to simplify equation for Leontovich boundary condition:
+![l equation](/eq/l_eq.png)
+where:
+- u0 - magnetic permeability for chamber's interior - here vacuum where ur=1,
+- wres - angular resonance frequency,
+- sigmaCu - relative conductivity for chamber's walls - here copper,
+- uCu - relative magnetic permeability for chamber's walls - here copper.
+
+### Boundary conditions
 
 Model is described with two boundary conditions.
 
->![Model's boundary conditions](/img/ORG_b_conditions.png)
+![Model's boundary conditions](/img/Org_b_conditions.png)
 
 ### Inport
 
-Inport is a source of electromagnetic wave. It is described with specific Helmholtz equation for the case:
+Inport is a source of electromagnetic wave. It is described with specific Helmholtz wave equation for the case of cylindrical waveguide with TE type:
+![Helmholtz equation for the case](/eq/Hz_eq.png)
+where:
+- Hz - wave identifying vector - EM wave propagating in Z direction,
+- Hz(0) - magnetic field strength amplitude in *t*=0 in point *(0,0,0)*,
+- Jm - m-th order Bessel function,
+- u'mn - n-th root of the derivative of m-th order Bessel function,
+- r - waveguide's radius,
+- beta - phase constant,
+- ro, phi, z - cylindrical coordinates,
+- m, n - wave mode identifiers - for TE 01 *m*=0, *n*=1.
 
+To provide the equation in form of Robin boundary condition, two variables need to be used:
+
+![Electric Robin coefficient - inport](/eq/ER_inport_eq.png)
+
+![g - inport](/eq/g_inport_short_eq.png)
+which for our case is:
+![g - inport - full equation](/eq/g_inport_full_eq.png)
+*g* function introduced simplified Bessel function with conversion to Cartesian coordinates.
 
 ### Walls
 
-Energy absorption by copper walls are described with Leontovich impedance boundary condition.
+Energy absorption by copper walls are described with Leontovich impedance boundary condition. Presented in form of Robin boundary condition:
+
+![Electric Robin coefficient - walls](/eq/ER_walls_eq.png)
+
+![g - walls](/eq/g_walls_eq.png)
 
 ## Usage
 
@@ -55,11 +138,12 @@ Visualisation of the electromagnetic field distribution inside a model given in 
 
 > ### Electric field E
 >
+>![Electric field vector distribution, real part](/img/Org_E_field_re_YZ.png)
 >
-> ![Electric field vector distribution, imaginary part](/img/ORG_E_field_im_YZ.png)
+> ![Electric field vector distribution, imaginary part](/img/Org_E_field_im_YZ.png)
 
 > ### Magnetic field strength H
 >
-> ![Magnetic field strength distribution, real part](/img/ORG_M_field_re_YZ.png)
+> ![Magnetic field strength distribution, real part](/img/Org_M_field_re_YZ.png)
 >
-> ![Magnetic field strength distribution, imaginary part](/img/ORG_M_field_im_YZ.png)
+> ![Magnetic field strength distribution, imaginary part](/img/Org_M_field_im_YZ.png)
