@@ -52,40 +52,38 @@ Model uses *VectorHelmholtz* module for solving Helmholtz equation describing el
 
 To simplify formulas used in a program, *Constants* section was introduced.
 
-``! Constants for wave equation
-$ beta=21.243
-$ beta_lim=47.896
-$ const=0.013292
-$ w=2*pi*(2.5e9)
-! Constant for Leontovich boundary condition
-$ l=767340``
-
 *beta* - phase constant:
+
 ![Phase constant equation](/eq/phase_const_eq.png)
 
 ![Main phase constant equation](/eq/phase_eq.png)
+
 - wres - angular resonance frequency,
 - e0, u0 - electric permittivity and magnetic permeability of chamber's interior - here vacuum where er=1 and ur=1.
 Note! Phase constant needs to be a real value!
 
 *beta_lim* - limit phase constant:
+
 ![Limit phase constant equation](/eq/phase_lim_eq.png)
-where:
+
 - u'mn - n-th root of the derivative of m-th order Bessel function - here *m*=0, *n*=1,
 - r - waveguide's radius.
 
 *const* - custom constant introduced to simplify Helmholtz equation:
+
 ![Const equation](/eq/const_eq.png)
-where:
+
 - r - waveguide's radius,
 - u'mn - n-th root of the derivative of m-th order Bessel function - here *m*=0, *n*=1.
 
-*w* - (omega_res) - angular resonance frequency:
+*w* - angular resonance frequency:
+
 ![Angular frequency equation](/eq/wres_eq.png)
 
 *l* - custom constant introduced to simplify equation for Leontovich boundary condition:
+
 ![l equation](/eq/l_eq.png)
-where:
+
 - u0 - magnetic permeability for chamber's interior - here vacuum where ur=1,
 - wres - angular resonance frequency,
 - sigmaCu - relative conductivity for chamber's walls - here copper,
@@ -100,7 +98,9 @@ Model is described with two boundary conditions.
 ### Inport
 
 Inport is a source of electromagnetic wave. It is described with specific Helmholtz wave equation for the case of cylindrical waveguide with TE type:
+
 ![Helmholtz equation for the case](/eq/Hz_eq.png)
+
 where:
 - Hz - wave identifying vector - EM wave propagating in Z direction,
 - Hz(0) - magnetic field strength amplitude in *t*=0 in point *(0,0,0)*,
@@ -116,8 +116,9 @@ To provide the equation in form of Robin boundary condition, two variables need 
 ![Electric Robin coefficient - inport](/eq/ER_inport_eq.png)
 
 ![g - inport](/eq/g_inport_short_eq.png)
-which for our case is:
+
 ![g - inport - full equation](/eq/g_inport_full_eq.png)
+
 *g* function introduced simplified Bessel function with conversion to Cartesian coordinates.
 
 ### Walls
