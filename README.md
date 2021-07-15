@@ -52,23 +52,23 @@ Model uses *VectorHelmholtz* module for solving Helmholtz equation describing el
 
 To simplify formulas used in a program, *Constants* section was introduced.
 
-`! Constants for wave equation
+``! Constants for wave equation
 $ beta=21.243
 $ beta_lim=47.896
 $ const=0.013292
 $ w=2*pi*(2.5e9)
 ! Constant for Leontovich boundary condition
-$ l=767340`
+$ l=767340``
 
-*beta* - (beta) - phase constant:
+*beta* - phase constant:
 ![Phase constant equation](/eq/phase_const_eq.png)
-where:
+
 ![Main phase constant equation](/eq/phase_eq.png)
 - wres - angular resonance frequency,
 - e0, u0 - electric permittivity and magnetic permeability of chamber's interior - here vacuum where er=1 and ur=1.
 Note! Phase constant needs to be a real value!
 
-*beta_lim* - (beta_lim) - limit phase constant:
+*beta_lim* - limit phase constant:
 ![Limit phase constant equation](/eq/phase_lim_eq.png)
 where:
 - u'mn - n-th root of the derivative of m-th order Bessel function - here *m*=0, *n*=1,
